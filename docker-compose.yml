@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3001:3001"
+    environment:
+      - PROCORE_CLIENT_ID
+      - PROCORE_CLIENT_SECRET
+      - PROCORE_REDIRECT_URI
+    depends_on:
+      - ai
+
+  ai:
+    build:
+      context: ./ai-service
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
